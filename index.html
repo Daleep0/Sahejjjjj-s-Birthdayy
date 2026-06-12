@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Snugglebug's Birthday Countdown! ✨</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #ffe5ec 0%, #ffcad4 50%, #b5e2fa 100%);
+            --primary: #ff758f;
+            --primary-dark: #ff4d6d;
+            --text-color: #590d22;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Nunito', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 10px;
+            overflow-x: hidden;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+            z-index: 10;
+        }
+
+        h1 {
+            font-family: 'Quicksand', sans-serif;
+            color: var(--primary-dark);
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 10px rgba(255, 77, 109, 0.15);
+        }
+
+        .countdown-banner {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 8px 20px rgba(255, 117, 143, 0.1);
+            display: inline-block;
+            border: 2px solid white;
+            animation: bounce 2s infinite alternate;
+        }
+
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-5px); }
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            width: 100%;
+            max-width: 600px;
+            padding: 10px;
+            z-index: 10;
+        }
+
+        @media (max-width: 480px) {
+            .grid-container { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        }
+
+        .envelope-wrapper {
+            position: relative;
+            aspect-ratio: 1 / 1;
+        }
+
+        .envelope {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.05);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .envelope:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 10px 20px rgba(255, 117, 143, 0.15);
+        }
+
+        .envelope .day-number {
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: var(--text-color);
+            margin-top: 5px;
+        }
+
+        .envelope i.lock-icon {
+            font-size: 1.6rem;
+            color: #b0c4de;
+            transition: transform 0.3s;
+        }
+
+        .envelope:hover i.lock-icon {
+            transform: rotate(-10deg) scale(1.1);
+        }
+
+        .envelope.unlocked {
+            background: #fff0f3;
+            border-color: #ffcad4;
+        }
+        
+        .envelope.unlocked i.lock-icon {
+            color: #2a9d8f;
+        }
+
+        /* 10th JULY SPECIAL CELEBRATION GLOW */
+        .envelope.final-day {
+            background: linear-gradient(135deg, #ff758f 0%, #ff4d6d 100%);
+            border: 3px solid #fff;
+            animation: ultimateGlow 1.5s ease-in-out infinite alternate;
+        }
+        .envelope.final-day .day-number {
+            color: white;
+            font-size: 1.2rem;
+        }
+        .envelope.final-day i.lock-icon {
+            color: #fff3b0;
+        }
+
+        @keyframes ultimateGlow {
+            0% {
+                box-shadow: 0 0 10px #ff4d6d, 0 0 20px #ff758f;
+                transform: scale(1);
+            }
+            100% {
+                box-shadow: 0 0 20px #ff4d6d, 0 0 35px #ff758f;
+                transform: scale(1.05);
+            }
+        }
+
+        /* OVERLAY SYSTEM */
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(89, 13, 34, 0.5);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .overlay.active { opacity: 1; pointer-events: all; }
+
+        .modal-card {
+            background: white;
+            width: 90%;
+            max-width: 450px;
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            text-align: center;
+            position: relative;
+            transform: scale(0.85);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 3px solid #ffcad4;
+        }
+
+        .overlay.active .modal-card { transform: scale(1); }
+
+        .close-btn {
+            position: absolute;
+            top: 15px; right: 20px;
+            background: none; border: none;
+            font-size: 1.5rem; color: #aaa; cursor: pointer;
+        }
+
+        .gate-input {
+            width: 80%;
+            padding: 12px 20px;
+            border-radius: 50px;
+            border: 2px solid #ffcad4;
+            font-size: 1.1rem;
+            text-align: center;
+            margin: 20px 0;
+            outline: none;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        .gate-btn {
+            background: var(--primary-dark);
+            color: white; border: none;
+            padding: 12px 35px; border-radius: 50px;
+            font-size: 1rem; font-weight: 700; cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3);
+        }
+
+        .task-container { display: none; }
+        .task-container.active { display: block; }
+
+        /* Scratch Card Box Mechanics */
+        .scratch-box {
+            position: relative;
+            width: 260px;
+            height: 160px;
+            margin: 15px auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            touch-action: none; /* Block native page sliding while scratching */
+        }
+
+        .scratch-secret {
+            position: absolute;
+            width: 100%; height: 100%;
+            background: #fff0f3;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            padding: 15px; text-align: center;
+            font-weight: 700; color: var(--primary-dark);
+        }
+
+        .scratch-canvas {
+            position: absolute;
+            top: 0; left: 0; z-index: 2;
+            cursor: pointer;
+        }
+
+        /* Catch Game UI Details */
+        #gameCanvas {
+            background: linear-gradient(to bottom, #e0f2fe, #f0fdf4);
+            border-radius: 15px;
+            display: block; margin: 15px auto;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
+            border: 2px solid #b5e2fa;
+            touch-action: none; /* Block mobile double-tap zooming inside game */
+        }
+
+        .voucher-ticket {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            padding: 20px; border-radius: 15px;
+            color: white; font-weight: 700; margin: 15px 0;
+            border: 2px dashed rgba(255,255,255,0.6);
+            box-shadow: 0 8px 166px rgba(0,0,0,0.05);
+        }
+
+        .shake { animation: shakeEffect 0.4s ease; }
+        @keyframes shakeEffect {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 id="titleGreeting">Guglu Mugluu's Portal 🌸</h1>
+        <div class="countdown-banner" id="countdownBanner">Calculating special days... ⏰</div>
+    </header>
+
+    <div class="grid-container" id="envelopeGrid"></div>
+
+    <div class="overlay" id="portalOverlay">
+        <div class="modal-card" id="modalCard">
+            <button class="close-btn" onclick="closePortal()">&times;</button>
+            
+            <div id="gateArea">
+                <h2 style="color: var(--primary-dark);" id="gateHeader">Locked Envelope 🔒</h2>
+                <p style="font-size: 0.95rem; margin-top: 5px;">Hey Snugglebug! Enter today's secret matching key word to open:</p>
+                <input type="text" class="gate-input" id="passwordField" placeholder="Enter key word...">
+                <br>
+                <button class="gate-btn" onclick="validatePasswordCode()">Unlock Secret 🔑</button>
+            </div>
+
+            <div id="contentArea" style="display: none;">
+                
+                <div class="task-container" id="task-scratch">
+                    <h2 style="color:var(--primary-dark)">Scratch Card Magic! 🧼</h2>
+                    <p style="font-size:0.9rem; margin-bottom:5px;">Rub your mouse or finger across the silver block to scratch & find your note!</p>
+                    <div class="scratch-box">
+                        <div class="scratch-secret" id="scratchSecretMessage">Text</div>
+                        <canvas class="scratch-canvas" id="scratchCanvas"></canvas>
+                    </div>
+                </div>
+
+                <div class="task-container" id="task-game">
+                    <h2 style="color:var(--primary-dark)">Catch The Hearts! 🕹️</h2>
+                    <p style="font-size:0.9rem;">Move your finger or mouse on the box to catch items! Reach <b>60 points</b> to unlock the note!</p>
+                    <div style="font-weight:bold; margin-top:5px;" id="gameScoreTrack">Score: 0</div>
+                    <canvas id="gameCanvas"></canvas>
+                </div>
+
+                <div class="task-container" id="task-text">
+                    <h2 style="color:var(--primary-dark)" id="textHeaderTitle">Message For You 💌</h2>
+                    <div id="textContentBody">Content</div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // CLEAN, VERIFIED 27-DAY LOOKUP DATA MATRIX
+        const configDatabase = [
+            { day: 1,  code: "MANGO",    type: "text",    title: "Day 1: Sweet Kickoff! 🥭", data: "Good morning Guglu Mugluu! Welcome to your official birthday countdown portal. You have 26 days left of mini surprises. Hope your morning blooms beautifully!" },
+            { day: 2,  code: "COOKIE",   type: "scratch", title: "", data: "Snugglebug Superpower: Infinite Patience! You deserve an award for dealing with me daily! 🍪✨" },
+            { day: 3,  code: "CHAI",     type: "game",    title: "", data: "Quote of the day: Keep smiling Guglu Mugluu, it makes the whole world a thousand times brighter! ☕" },
+            { day: 4,  code: "SHINE",    type: "text",    title: "Day 4 Voucher! 🎫", data: "<div class='voucher-ticket'>✨ THE FREE BOBA / COFFEE PASS ✨<br><br><span style='font-size:0.85rem'>Screenshot this ticket and send it over to claim a fresh beverage instantly on me!</span></div>" },
+            { day: 5,  code: "PIZZA",    type: "scratch", title: "", data: "Reminder: You are smart, beautiful, incredibly funny, and absolute elite tier! 🍕" },
+            { day: 6,  code: "FLUFFY",   type: "game",    title: "", data: "Task: Stop working for 60 seconds, breathe, stretch, and know you are highly appreciated! 🌸" },
+            { day: 7,  code: "HONEY",    type: "text",    title: "End of Week 1! 🍯", data: "Look how far we got! 7 whole days of countdown checked. You are stuck with me forever, Snugglebug!" },
+            { day: 8,  code: "SPARK",    type: "scratch", title: "", data: "Guglu Mugluu Superpower: Vibe Architecture. You can change any bad mood instantly! ⚡" },
+            { day: 9,  code: "KITTEN",   type: "game",    title: "", data: "You are doing an incredibly amazing job at life. Never doubt yourself for a single second! 🐾" },
+            { day: 10, code: "DONUT",    type: "text",    title: "Day 10 Voucher! 🎫", data: "<div class='voucher-ticket'>🍩 THE LAZY DAY COMPLIANCE CARD 🍩<br><br><span style='font-size:0.85rem'>Play this card whenever you want me to agree with a completely terrible movie choice without complaints!</span></div>" },
+            { day: 11, code: "CLOUD",    type: "scratch", title: "", data: "May your day be light, airy, peaceful, and entirely stress-free today! ☁️" },
+            { day: 12, code: "BERRY",    type: "game",    title: "", data: "I hope you encountered at least one thing today that made you laugh out loud! 🍓" },
+            { day: 13, code: "MAGIC",    type: "text",    title: "Halfway Mark! ✨", data: "We are practically flying through days! Your countdown machine is fueled entirely by your amazing energy!" },
+            { day: 14, code: "PUPPY",    type: "scratch", title: "", data: "Sending a massive, warm virtual hug right to your screen. Feel it yet?! 🐶" },
+            { day: 15, code: "MELON",    type: "game",    title: "", data: "You deserve all the sweet treats, zero anxieties, and a perfect day! 🍉" },
+            { day: 16, code: "PEACH",    type: "text",    title: "Day 16 Voucher! 🎫", data: "<div class='voucher-ticket'>🍑 THE AUTOMATIC RANT LISTENER PASS 🍑<br><br><span style='font-size:0.85rem'>Entitles you to a 30-minute uninterrupted telephone rant session about absolutely anything.</span></div>" },
+            { day: 17, code: "GALAXY",   type: "scratch", title: "", data: "Out of all the stars in the massive universe, you shine the brightest! 🌌" },
+            { day: 18, code: "BUBBLE",   type: "game",    title: "", data: "Pop those anxieties away! You are fully capable of crushing whatever goal you set today. 🫧" },
+            { day: 19, code: "SUNNY",    type: "text",    title: "19 Days Strong! ☀️", data: "You bring so much literal sunshine and clean clarity into my environment. Thank you for being you!" },
+            { day: 20, code: "CUPCAKE",  type: "scratch", title: "", data: "A sweet reminder that you are deeply cared for, valued, and completely irreplaceable. 🧁" },
+            { day: 21, code: "DREAM",    type: "game",    title: "", data: "Dream big today Guglu Mugluu! You have everything it takes to win. 💫" },
+            { day: 22, code: "BLOSSOM",  type: "text",    title: "Day 22 Voucher! 🎫", data: "<div class='voucher-ticket'>🌸 FREE ICE CREAM MANDATE 🌸<br><br><span style='font-size:0.85rem'>Redeemable instantly for an ice cream delivery directly to your coordinates!</span></div>" },
+            { day: 23, code: "COZY",     type: "scratch", title: "", data: "Snugglebug Superpower: Instant Coziness. Your chats feel like a warm blanket! 🧸" },
+            { day: 24, code: "LUCKY",    type: "game",    title: "", data: "I am definitely the lucky one to have a top-tier bestie like you in my life! 🍀" },
+            { day: 25, code: "RAINBOW",  type: "text",    title: "25 Days Down! 🌈", data: "Only 2 more days until your ultimate day! The excitement levels are hitting absolute capacity!" },
+            { day: 26, code: "ANGEL",    type: "scratch", title: "", data: "Tomorrow is the big day! Sleep well tonight, clear your mind, and prepare for your crown! 👼" },
+            { day: 27, code: "HURRAY",   type: "text",    title: "🎁 HAPPY BIRTHDAY SAHEJ! 🎁", data: "HAPPY BIRTHDAY TO MY ABSOLUTE BESTEST FRIEND, GUGLU MUGLUU! 🥳✨ You are the most spectacular human being alive. Today the whole world celebrates you! I hope your entire year blooms with infinite joy, laughter, and success! Let's celebrate! 🎂💖" }
+        ];
+
+        let unlockedEnvelopes = JSON.parse(localStorage.getItem('unlocked_days_bf')) || [];
+        let activeTargetIndex = null;
+        let gameInterval = null;
+
+        function calculateCountdown() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const bdayTarget = new Date(`July 10, ${year} 00:00:00`);
+            const timeDiff = bdayTarget - now;
+            const banner = document.getElementById('countdownBanner');
+
+            if (timeDiff <= 0 && now.getMonth() === 6 && now.getDate() === 10) {
+                banner.innerText = "Yippee! Today is Snugglebug Day! 🥳🎂";
+            } else {
+                const totalDaysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+                if(totalDaysLeft > 0) {
+                    banner.innerText = `Yippee! Only ${totalDaysLeft} days left until Snugglebug Day! 🎂✨`;
+                } else {
+                    banner.innerText = "The big countdown celebration is active! 💖";
+                }
+            }
+        }
+
+        function generateDashboardGrid() {
+            const grid = document.getElementById('envelopeGrid');
+            grid.innerHTML = '';
+
+            configDatabase.forEach((item, index) => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'envelope-wrapper';
+
+                const env = document.createElement('div');
+                const isFinal = item.day === 27;
+                const isAlreadyUnlocked = unlockedEnvelopes.includes(item.day);
+
+                env.className = `envelope ${isFinal ? 'final-day' : ''} ${isAlreadyUnlocked ? 'unlocked' : ''}`;
+                env.onclick = () => launchEnvelopePortal(index);
+
+                const lockIcon = document.createElement('i');
+                lockIcon.className = isAlreadyUnlocked ? "fa-solid fa-envelope-open lock-icon" : "fa-solid fa-lock lock-icon";
+                if(isFinal && !isAlreadyUnlocked) lockIcon.className = "fa-solid fa-gift lock-icon";
+
+                const dayNum = document.createElement('div');
+                dayNum.className = 'day-number';
+                dayNum.innerText = isFinal ? "10 July" : `#${item.day}`;
+
+                env.appendChild(lockIcon);
+                env.appendChild(dayNum);
+                wrapper.appendChild(env);
+                grid.appendChild(wrapper);
+            });
+        }
+
+        function launchEnvelopePortal(index) {
+            activeTargetIndex = index;
+            const targetData = configDatabase[index];
+            const isUnlocked = unlockedEnvelopes.includes(targetData.day);
+
+            document.getElementById('passwordField').value = '';
+            document.getElementById('portalOverlay').classList.add('active');
+
+            if (isUnlocked) {
+                bypassGateAndDisplayTask(targetData);
+            } else {
+                document.getElementById('gateArea').style.display = 'block';
+                document.getElementById('contentArea').style.display = 'none';
+                document.getElementById('gateHeader').innerText = targetData.day === 27 ? "The Ultimate Gift 🎁" : `Locked Box #${targetData.day} 🔒`;
+            }
+        }
+
+        function closePortal() {
+            document.getElementById('portalOverlay').classList.remove('active');
+            clearInterval(gameInterval);
+        }
+
+        function validatePasswordCode() {
+            const entered = document.getElementById('passwordField').value.trim().toUpperCase();
+            const target = configDatabase[activeTargetIndex];
+            const card = document.getElementById('modalCard');
+
+            if (entered === target.code) {
+                unlockedEnvelopes.push(target.day);
+                localStorage.setItem('unlocked_days_bf', JSON.stringify(unlockedEnvelopes));
+                generateDashboardGrid();
+                bypassGateAndDisplayTask(target);
+            } else {
+                card.classList.add('shake');
+                setTimeout(() => card.classList.remove('shake'), 400);
+            }
+        }
+
+        function bypassGateAndDisplayTask(target) {
+            document.getElementById('gateArea').style.display = 'none';
+            document.getElementById('contentArea').style.display = 'block';
+
+            document.getElementById('task-scratch').classList.remove('active');
+            document.getElementById('task-game').classList.remove('active');
+            document.getElementById('task-text').classList.remove('active');
+
+            if (target.type === "scratch") {
+                document.getElementById('task-scratch').classList.add('active');
+                initScratchCard(target.data);
+            } else if (target.type === "game") {
+                document.getElementById('task-game').classList.add('active');
+                initCatchGame(target.data);
+            } else {
+                document.getElementById('task-text').classList.add('active');
+                document.getElementById('textHeaderTitle').innerHTML = target.title;
+                document.getElementById('textContentBody').innerHTML = `<p style="font-size:1.1rem; font-weight:600; line-height:1.6; padding:10px;">${target.data}</p>`;
+            }
+        }
+
+        function initScratchCard(hiddenMessage) {
+            document.getElementById('scratchSecretMessage').innerText = hiddenMessage;
+            const canvas = document.getElementById('scratchCanvas');
+            
+            // Explicit canvas rendering parameters setup
+            canvas.width = 260;
+            canvas.height = 160;
+            
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#b0bec5';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#590d22';
+            ctx.font = 'bold 15px Nunito';
+            ctx.textAlign = 'center';
+            ctx.fillText('Scratch here Snugglebug! 🧼', canvas.width / 2, canvas.height / 2 + 5);
+
+            let isDrawing = false;
+            function scratch(e) {
+                if(!isDrawing) return;
+                const rect = canvas.getBoundingClientRect();
+                const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+                const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+                
+                if(!clientX || !clientY) return;
+
+                const x = clientX - rect.left;
+                const y = clientY - rect.top;
+
+                ctx.globalCompositeOperation = 'destination-out';
+                ctx.beginPath();
+                ctx.arc(x, y, 20, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            canvas.onmousedown = () => isDrawing = true;
+            canvas.onmouseup = () => isDrawing = false;
+            canvas.onmousemove = scratch;
+
+            canvas.ontouchstart = () => isDrawing = true;
+            canvas.ontouchend = () => isDrawing = false;
+            canvas.ontouchmove = (e) => { scratch(e); e.preventDefault(); };
+        }
+
+        function initCatchGame(rewardText) {
+            const canvas = document.getElementById('gameCanvas');
+            
+            canvas.width = 280;
+            canvas.height = 180;
+
+            const ctx = canvas.getContext('2d');
+            const scoreDisplay = document.getElementById('gameScoreTrack');
+            
+            let score = 0;
+            scoreDisplay.innerText = "Score: 0";
+
+            let basket = { x: canvas.width / 2 - 25, y: canvas.height - 25, w: 50, h: 15 };
+            let fallingItems = [];
+            clearInterval(gameInterval);
+
+            function moveBasket(clientX) {
+                const rect = canvas.getBoundingClientRect();
+                const rootX = clientX - rect.left;
+                basket.x = rootX - basket.w / 2;
+                if (basket.x < 0) basket.x = 0;
+                if (basket.x > canvas.width - basket.w) basket.x = canvas.width - basket.w;
+            }
+
+            window.onmousemove = (e) => {
+                if(document.getElementById('task-game').classList.contains('active')) {
+                    moveBasket(e.clientX);
+                }
+            };
+            
+            canvas.ontouchmove = (e) => {
+                moveBasket(e.touches[0].clientX);
+                e.preventDefault();
+            };
+
+            gameInterval = setInterval(() => {
+                if (Math.random() < 0.05) {
+                    fallingItems.push({ x: Math.random() * (canvas.width - 20), y: 0, size: 16, speed: 3 });
+                }
+
+                for(let i = fallingItems.length - 1; i >= 0; i--) {
+                    let item = fallingItems[i];
+                    item.y += item.speed;
+
+                    if (item.y + 10 >= basket.y && item.x + 10 >= basket.x && item.x <= basket.x + basket.w) {
+                        score += 10;
+                        scoreDisplay.innerText = `Score: ${score}`;
+                        fallingItems.splice(i, 1);
+                        continue;
+                    }
+                    if(item.y > canvas.height) {
+                        fallingItems.splice(i, 1);
+                    }
+                }
+
+                if (score >= 60) {
+                    clearInterval(gameInterval);
+                    document.getElementById('task-game').innerHTML = `<h3 style="color:#2a9d8f">You Win Guglu Mugluu! 🎉</h3><p style="font-size:1.1rem; font-weight:600; margin-top:15px; line-height:1.5">${rewardText}</p>`;
+                    return;
+                }
+
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#ff758f';
+                ctx.fillRect(basket.x, basket.y, basket.w, basket.h);
+                
+                ctx.fillStyle = '#ff4d6d';
+                ctx.font = '14px Arial';
+                fallingItems.forEach(item => {
+                    ctx.fillText('❤️', item.x, item.y);
+                });
+            }, 1000 / 30);
+        }
+
+        window.onload = () => {
+            calculateCountdown();
+            generateDashboardGrid();
+        };
+    </script>
+</body>
+</html>
