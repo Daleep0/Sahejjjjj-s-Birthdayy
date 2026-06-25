@@ -114,7 +114,6 @@
         .envelope i.lock-icon {
             font-size: 1.6rem;
             color: #b0c4de;
-            transition: transform 0.3s;
         }
 
         .envelope.unlocked {
@@ -122,33 +121,25 @@
             border-color: #ffcad4;
         }
         
-        .envelope.unlocked i.lock-icon {
-            color: #2a9d8f;
-        }
+        .envelope.unlocked i.lock-icon { color: #2a9d8f; }
 
         .envelope.final-day {
             background: linear-gradient(135deg, #ff758f 0%, #ff4d6d 100%);
             border: 3px solid #fff;
             animation: ultimateGlow 1.5s ease-in-out infinite alternate;
         }
-        .envelope.final-day .day-number {
-            color: white;
-            font-size: 1.1rem;
-        }
-        .envelope.final-day i.lock-icon {
-            color: #fff3b0;
-        }
+        .envelope.final-day .day-number { color: white; }
+        .envelope.final-day i.lock-icon { color: #fff3b0; }
 
         @keyframes ultimateGlow {
-            0% { box-shadow: 0 0 10px #ff4d6d, 0 0 20px #ff758f; transform: scale(1); }
-            100% { box-shadow: 0 0 20px #ff4d6d, 0 0 35px #ff758f; transform: scale(1.05); }
+            0% { box-shadow: 0 0 10px #ff4d6d; transform: scale(1); }
+            100% { box-shadow: 0 0 20px #ff758f; transform: scale(1.05); }
         }
 
-        /* OVERLAYS & MODAL SYSTEM */
         .overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(89, 13, 34, 0.55);
+            background: rgba(89, 13, 34, 0.6);
             backdrop-filter: blur(8px);
             z-index: 1000;
             display: flex;
@@ -183,7 +174,6 @@
             top: 15px; right: 20px;
             background: none; border: none;
             font-size: 1.5rem; color: #aaa; cursor: pointer;
-            z-index: 11;
         }
 
         .gate-input {
@@ -192,7 +182,6 @@
             font-size: 1.1rem; text-align: center;
             margin: 20px 0; outline: none;
             text-transform: uppercase; font-weight: 700;
-            color: var(--text-color);
         }
 
         .gate-btn {
@@ -201,63 +190,74 @@
             padding: 12px 35px; border-radius: 50px;
             font-size: 1rem; font-weight: 700; cursor: pointer;
             box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3);
+            margin: 5px;
+        }
+
+        /* READY CONFIRMATION FLOW */
+        #readyCheckArea { display: none; }
+        .ready-title { color: var(--primary-dark); font-size: 1.6rem; margin-bottom: 15px; }
+
+        /* LIVE COUNTDOWN SCREEN */
+        #countdownScreen {
+            display: none;
+            font-size: 5rem;
+            font-weight: 900;
+            color: var(--primary-dark);
+            animation: pulseText 0.5s infinite alternate;
+        }
+        @keyframes pulseText {
+            0% { transform: scale(0.95); }
+            100% { transform: scale(1.05); }
         }
 
         .task-container { display: none; }
         .task-container.active { display: block; }
 
-        /* GAME STYLES */
-        .scratch-box {
-            position: relative;
-            width: 260px; height: 160px;
-            margin: 15px auto; border-radius: 15px;
-            overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        /* CANVAS AND GENERIC GAME STYLES */
+        canvas {
+            display: block;
+            margin: 15px auto;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            background: #fff;
             touch-action: none;
         }
-
-        .scratch-secret {
-            position: absolute; width: 100%; height: 100%;
-            background: #fff0f3; display: flex;
-            justify-content: center; align-items: center;
-            padding: 15px; text-align: center;
-            font-weight: 700; color: var(--primary-dark);
-        }
-
-        .scratch-canvas { position: absolute; top: 0; left: 0; z-index: 2; cursor: pointer; }
-
-        #gameCanvas {
-            background: linear-gradient(to bottom, #e0f2fe, #f0fdf4);
-            border-radius: 15px; display: block; margin: 15px auto;
-            box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
-            border: 2px solid #b5e2fa; touch-action: none;
-        }
-
-        /* Word Unscrambler UI */
-        .scramble-word { font-size: 1.8rem; font-weight: 900; letter-spacing: 5px; color: var(--primary-dark); margin: 15px 0; }
-        .scramble-input { padding: 10px 15px; width: 70%; border-radius: 25px; border: 2px solid #ffcad4; font-size: 1.1rem; text-align: center; outline: none; margin-bottom: 10px; }
-
-        /* Memory Match UI */
-        .memory-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; max-width: 280px; margin: 15px auto; }
-        .memory-card { aspect-ratio: 1; background: var(--primary); border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; transition: transform 0.3s; }
-        .memory-card.flipped { background: white; color: var(--primary-dark); border: 2px solid #ffcad4; transform: rotateY(180deg); }
-
-        /* Balloon Popper UI */
-        #balloonCanvas { background: #f0f9ff; border-radius: 15px; display: block; margin: 15px auto; border: 2px solid #bae6fd; touch-action: none; }
 
         .love-message-box {
             background: #fff0f3; border-radius: 20px;
             padding: 20px; border: 2px dashed var(--primary);
             margin-top: 15px; text-align: left;
-            max-height: 320px; overflow-y: auto;
+            max-height: 280px; overflow-y: auto;
         }
-
-        .love-message-box p { font-size: 1rem; line-height: 1.6; color: #590d22; font-weight: 600; margin-bottom: 10px; }
+        .love-message-box p { font-size: 0.98rem; line-height: 1.6; color: #590d22; margin-bottom: 12px; }
 
         .voucher-ticket {
             background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
             padding: 15px; border-radius: 15px; color: white;
             font-weight: 700; margin-bottom: 15px; border: 2px dashed rgba(255,255,255,0.6);
         }
+
+        /* ANIMATED DOG AVATARS SYSTEM */
+        .dog-house { font-size: 4rem; margin: 15px 0; display: inline-block; }
+        .dog-bounce { animation: dogBounce 1s infinite alternate; }
+        .dog-spin { animation: dogSpin 2s infinite linear; }
+        .dog-wag { animation: dogWag 0.5s infinite alternate; }
+        .dog-jump { animation: dogJump 0.8s infinite ease-in-out alternate; }
+        .dog-float { animation: dogFloat 2s infinite ease-in-out alternate; }
+
+        @keyframes dogBounce { 0% { transform: translateY(0); } 100% { transform: translateY(-15px); } }
+        @keyframes dogSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes dogWag { 0% { transform: rotate(-8deg); } 100% { transform: rotate(8deg); } }
+        @keyframes dogJump { 0% { transform: scale(0.9) translateY(0); } 100% { transform: scale(1.05) translateY(-20px); } }
+        @keyframes dogFloat { 0% { transform: translateX(-5px) translateY(0); } 100% { transform: translateX(5px) translateY(-10px); } }
+
+        /* SCRAMBLE AND SLIDER UI ELEMENTS */
+        .scramble-word { font-size: 1.8rem; font-weight: 900; letter-spacing: 5px; color: var(--primary-dark); margin: 15px 0; }
+        .scramble-input { padding: 10px 15px; width: 70%; border-radius: 25px; border: 2px solid #ffcad4; font-size: 1.1rem; text-align: center; outline: none; margin-bottom: 10px; }
+        
+        .lab-slider-group { margin: 12px 0; text-align: left; }
+        .lab-slider-group label { font-weight: bold; font-size: 0.9rem; display: block; margin-bottom: 3px; }
+        .lab-slider { width: 100%; accent-color: var(--primary-dark); }
 
         .shake { animation: shakeEffect 0.4s ease; }
         @keyframes shakeEffect {
@@ -280,7 +280,7 @@
         <div class="modal-card" id="modalCard">
             <button class="close-btn" onclick="closePortal()">&times;</button>
             
-            <!-- CODE INPUT BARRIER -->
+            <!-- STEP 1: PASSWORD WALL -->
             <div id="gateArea">
                 <h2 style="color: var(--primary-dark);" id="gateHeader">Locked Envelope 🔒</h2>
                 <p style="font-size: 0.95rem; margin-top: 5px;">Hey Snugglebug! Enter today's secret key word to unlock the challenge:</p>
@@ -289,60 +289,153 @@
                 <button class="gate-btn" onclick="validatePasswordCode()">Unlock Challenge 🔑</button>
             </div>
 
-            <!-- CHALLENGE MODULE ENGINE HOUSES -->
+            <!-- STEP 2: THE TRAP READY CHECK SCREEN -->
+            <div id="readyCheckArea">
+                <h2 class="ready-title">Are you ready, Snugglebug? 🤔</h2>
+                <p style="margin-bottom: 20px; font-size: 0.95rem;">The challenge for today awaits your absolute focus!</p>
+                <button class="gate-btn" onclick="triggerLiveCountdown()">Yes</button>
+                <button class="gate-btn" onclick="triggerLiveCountdown()">Yes ofc</button>
+            </div>
+
+            <!-- STEP 3: LIVE 3-2-1 TICKER ANIMATION -->
+            <div id="countdownScreen">3</div>
+
+            <!-- STEP 4: MAIN INTERACTIVE CORE PLAYGROUND -->
             <div id="contentArea" style="display: none;">
                 
-                <!-- GAME 1: SCRATCH CARD -->
-                <div class="task-container" id="task-scratch">
-                    <h2 style="color:var(--primary-dark)">Scratch Card Sprint! 🧼</h2>
-                    <p style="font-size:0.9rem; margin-bottom:5px;">Sahej, scratch away at least 85% of the silver layer to read your love drop note!</p>
-                    <div class="scratch-box">
-                        <div class="scratch-secret" id="scratchSecretMessage">Cleared!</div>
-                        <canvas class="scratch-canvas" id="scratchCanvas"></canvas>
+                <!-- NEW DAY 13: PIXELS PAINT -->
+                <div class="task-container" id="task-day13">
+                    <h2 style="color:var(--primary-dark)">Pixel Art Painting! 🎨</h2>
+                    <p style="font-size:0.85rem; margin-bottom:5px;">Swipe/Drag over the grey canvas to clear and paint the surprise birthday vector art!</p>
+                    <canvas id="canvas-day13" width="280" height="200"></canvas>
+                </div>
+
+                <!-- NEW DAY 14: CHAI MIXOLOGY LAB -->
+                <div class="task-container" id="task-day14">
+                    <h2 style="color:var(--primary-dark)">The Perfect Chai Lab ☕</h2>
+                    <p style="font-size:0.85rem; margin-bottom:10px;">Adjust sliders to find the exact hidden mix recipe formula (Hint: double digits!):</p>
+                    <div class="lab-slider-group">
+                        <label id="lbl-c1">Chai Patti: 50%</label>
+                        <input type="range" class="lab-slider" id="sld-c1" min="0" max="100" value="50" oninput="updateLabSliders()">
                     </div>
+                    <div class="lab-slider-group">
+                        <label id="lbl-c2">Milk Volume: 50%</label>
+                        <input type="range" class="lab-slider" id="sld-c2" min="0" max="100" value="50" oninput="updateLabSliders()">
+                    </div>
+                    <button class="gate-btn" onclick="checkChaiLabMix()">Brew & Test Recipe 🧪</button>
                 </div>
 
-                <!-- GAME 2: HEART CATCHER -->
-                <div class="task-container" id="task-game">
-                    <h2 style="color:var(--primary-dark)">Heart Catcher Sprint! 🕹️</h2>
-                    <p style="font-size:0.9rem;">Move your finger/mouse to catch hearts. Score **150 points** to unlock your message!</p>
-                    <div style="font-weight:bold; margin-top:5px; color: var(--primary-dark);" id="gameScoreTrack">Score: 0 / 150</div>
-                    <canvas id="gameCanvas"></canvas>
+                <!-- NEW DAY 15: FLAPPY HEART ARCADE -->
+                <div class="task-container" id="task-day15">
+                    <h2 style="color:var(--primary-dark)">Flappy Heart Dash! 🕹️</h2>
+                    <p style="font-size:0.85rem;">Tap screen to fly. Pass clean through obstacles to hit **5 points**!</p>
+                    <div style="font-weight:bold; margin-top:3px; color:var(--primary-dark)" id="score-day15">Score: 0 / 5</div>
+                    <canvas id="canvas-day15" width="280" height="200"></canvas>
                 </div>
 
-                <!-- GAME 3: WORD UNSCRAMBLER -->
-                <div class="task-container" id="task-scramble">
-                    <h2 style="color:var(--primary-dark)">Word Unscrambler Challenge! 🔠</h2>
-                    <p style="font-size:0.9rem;">Unscramble this word describing you to unlock your message, Snugglebug:</p>
-                    <div class="scramble-word" id="scrambleWordDisplay">XXXXX</div>
-                    <input type="text" class="scramble-input" id="scrambleInputField" placeholder="Your answer...">
-                    <br>
-                    <button class="gate-btn" onclick="checkUnscrambleAnswer()">Submit Word 🎯</button>
+                <!-- NEW DAY 16: LYRIC SOUNDBOARD ASSOCIATOR -->
+                <div class="task-container" id="task-day16">
+                    <h2 style="color:var(--primary-dark)">Lyric Association Trivia! 🎵</h2>
+                    <p style="font-size:0.9rem; margin-bottom:10px;">Guess the word that completes this ultimate bestie track lyric line:<br><br><b>"I'll be there for you, cause you're there for ______ too!"</b></p>
+                    <input type="text" class="scramble-input" id="input-day16" placeholder="Your answer...">
+                    <br><button class="gate-btn" onclick="checkLyricDay16()">Submit Lyric Word 🎯</button>
                 </div>
 
-                <!-- GAME 4: MEMORY MATCH -->
-                <div class="task-container" id="task-memory">
-                    <h2 style="color:var(--primary-dark)">Bestie Memory Match! 🧱</h2>
-                    <p style="font-size:0.9rem;">Match all pairs of hidden symbols before time runs out to open your envelope note!</p>
-                    <div class="memory-grid" id="memoryGridContainer"></div>
+                <!-- NEW DAY 17: CUPID ARCHERY BOW -->
+                <div class="task-container" id="task-day17">
+                    <h2 style="color:var(--primary-dark)">Cupid's Target Archery! 🏹</h2>
+                    <p style="font-size:0.85rem;">Tap anywhere horizontally on the canvas to shoot straight up and pop **5 moving targets**!</p>
+                    <div style="font-weight:bold; color:var(--primary-dark)" id="score-day17">Hits: 0 / 5</div>
+                    <canvas id="canvas-day17" width="280" height="200"></canvas>
                 </div>
 
-                <!-- GAME 5: BALLOON POPPER -->
-                <div class="task-container" id="task-balloon">
-                    <h2 style="color:var(--primary-dark)">Balloon Popper Blitz! 🎈</h2>
-                    <p style="font-size:0.9rem;">Tap and pop exactly **20 red balloons** as they float up to read your message!</p>
-                    <div style="font-weight:bold; margin-top:5px; color: var(--primary-dark);" id="balloonScoreTrack">Pops: 0 / 20</div>
-                    <canvas id="balloonCanvas"></canvas>
+                <!-- NEW DAY 18: ICE CREAM CONE STACKER -->
+                <div class="task-container" id="task-day18">
+                    <h2 style="color:var(--primary-dark)">Ice Cream Tower Stack! 🍦</h2>
+                    <p style="font-size:0.85rem;">Tap the canvas to drop a swinging scoop. Successfully stack a tower **4 scoops high**!</p>
+                    <div style="font-weight:bold; color:var(--primary-dark)" id="score-day18">Scoops Stacked: 0 / 4</div>
+                    <canvas id="canvas-day18" width="280" height="220"></canvas>
                 </div>
 
-                <!-- FIXED TEXT DISPLAY CONTAINER -->
-                <div class="task-container" id="task-text">
-                    <!-- This holds the revealed view space safely -->
+                <!-- NEW DAY 19: MEMORY LANE MAZE RUNNER -->
+                <div class="task-container" id="task-day19">
+                    <h2 style="color:var(--primary-dark)">Memory Lane Maze! 🗺️</h2>
+                    <p style="font-size:0.85rem; margin-bottom:5px;">Drag the red circle through the maze lanes directly onto the green star target!</p>
+                    <canvas id="canvas-day19" width="260" height="200"></canvas>
                 </div>
 
-                <!-- WIN ELEMENT APPRECIATION CONTAINER -->
+                <!-- NEW DAY 20: SIMON SAYS LIGHT REFLEXES -->
+                <div class="task-container" id="task-day20">
+                    <h2 style="color:var(--primary-dark)">Reflex Simon Says! 🎯</h2>
+                    <p style="font-size:0.85rem; margin-bottom:10px;">Click the big button rapidly **25 times** before the 8-second countdown bar hits empty!</p>
+                    <div style="font-weight:bold; font-size:1.2rem; color:var(--primary-dark)" id="score-day20">Taps Left: 25</div>
+                    <canvas id="canvas-day20" width="260" height="30"></canvas>
+                    <button class="gate-btn" style="padding:20px; width:80%" onclick="clickSimonSaysReflex()">TAP RAPIDLY! 🔥</button>
+                </div>
+
+                <!-- NEW DAY 21: NEON AIR HOCKEY ARENA -->
+                <div class="task-container" id="task-day21">
+                    <h2 style="color:var(--primary-dark)">Neon Air Hockey! 🏓</h2>
+                    <p style="font-size:0.85rem;">Drag your paddle horizontally at the bottom. Score **3 goals** against the robotic AI goalie!</p>
+                    <div style="font-weight:bold; color:var(--primary-dark)" id="score-day21">You: 0 | AI: 0</div>
+                    <canvas id="canvas-day21" width="280" height="220"></canvas>
+                </div>
+
+                <!-- NEW DAY 22: MAGNETIC HEART SNAPPING PUZZLE -->
+                <div class="task-container" id="task-day22">
+                    <h2 style="color:var(--primary-dark)">Magnetic Puzzle Fixer! 🧲</h2>
+                    <p style="font-size:0.85rem;">Drag the loose blue box element onto the static pink container box perfectly to snap it unified!</p>
+                    <canvas id="canvas-day22" width="280" height="180"></canvas>
+                </div>
+
+                <!-- NEW DAY 23: CONSTELLATION CONNECT DOTS -->
+                <div class="task-container" id="task-day23">
+                    <h2 style="color:var(--primary-dark)">Star Constellation Connect! 🪐</h2>
+                    <p style="font-size:0.85rem;">Drag your pointer through Dot 1, then Dot 2, then Dot 3 sequentially without resetting!</p>
+                    <canvas id="canvas-day23" width="280" height="180"></canvas>
+                </div>
+
+                <!-- NEW DAY 24: THREE CUPS RING HIDER SHELL -->
+                <div class="task-container" id="task-day24">
+                    <h2 style="color:var(--primary-dark)">Three Cups Shell Game! 🪙</h2>
+                    <p style="font-size:0.85rem; margin-bottom:10px;">The lucky birthday ring is locked inside a hidden container cup. Guess correctly to open!</p>
+                    <button class="gate-btn" style="padding:15px" onclick="pickShellCup(0)">Cup A</button>
+                    <button class="gate-btn" style="padding:15px" onclick="pickShellCup(1)">Cup B</button>
+                    <button class="gate-btn" style="padding:15px" onclick="pickShellCup(2)">Cup C</button>
+                </div>
+
+                <!-- NEW DAY 25: RETRO BRICK BREAKING SLATE -->
+                <div class="task-container" id="task-day25">
+                    <h2 style="color:var(--primary-dark)">Bestie Brick Breaker! 🧱</h2>
+                    <p style="font-size:0.85rem;">Move your touch pointer to slide the bottom plate. Deflect the bouncing ball to crush all **3 bricks**!</p>
+                    <canvas id="canvas-day25" width="280" height="180"></canvas>
+                </div>
+
+                <!-- NEW DAY 26: CANDLE BLOWOUT RAPID SWIPER -->
+                <div class="task-container" id="task-day26">
+                    <h2 style="color:var(--primary-dark)">Birthday Candle Blow-out! 🕯️</h2>
+                    <p style="font-size:0.85rem;">Drag/swipe across the candle lines rapidly to blow them out completely within the layout space!</p>
+                    <canvas id="canvas-day26" width="280" height="180"></canvas>
+                </div>
+
+                <!-- NEW DAY 27: THE GRAND MASTER COMBINATION VAULT SAFE -->
+                <div class="task-container" id="task-day27">
+                    <h2 style="color:var(--primary-dark)">The Final Vault Safe! 🔓</h2>
+                    <p style="font-size:0.85rem; margin-bottom:10px;">Enter the absolute final Master Code word to pop open the grand birthday safe vault channels:</p>
+                    <input type="text" class="scramble-input" id="input-day27" placeholder="Type final code word...">
+                    <br><button class="gate-btn" onclick="checkVaultDay27()">Unlock Vault 🎁</button>
+                </div>
+
+                <!-- LEFTOVER REDIRECT STUB BOXES FOR OPENED CACHE LOOPS -->
+                <div class="task-container" id="task-text"></div>
+
+                <!-- REWARD PLACEMENT AREA -->
                 <div id="rewardContainer" style="display:none; margin-top: 15px;">
                     <h2 style="color: #2a9d8f;" id="rewardTitle">Challenge Cleared! 🎉</h2>
+                    
+                    <!-- NEW DYNAMIC ANIMATED DOG CONTAINER SYSTEM -->
+                    <div id="dogAvatarPlacement"></div>
+                    
                     <div id="voucherPlacement"></div>
                     <div class="love-message-box" id="loveMessageBody"></div>
                 </div>
@@ -352,77 +445,83 @@
     </div>
 
     <script>
-        // CONFIG DATABASE FOR THE 27 DAYS WITH THE LONG LOVE MESSAGES
+        // EXPANDED CONFIG DATABASE WITH EXTENDED heartfelt MESSAGES & DOG ANIMATIONS
         const configDatabase = [
+            { day: 1, code: "MANGO", type: "text", love: "<p>Hey Sahej! Welcome to your official birthday countdown station! You aren't just an ordinary best friend; you are my absolute anchor...</p>" },
+            { day: 2, code: "COOKIE", type: "text", love: "<p>Incredible job clearing that game, Sahej! Honestly, your existence makes my life infinitely better...</p>" },
+            { day: 3, code: "CHAI", type: "text", love: "<p>You solved it! Sahej, you are the absolute definition of a true best friend...</p>" },
+            { day: 4, code: "SHINE", type: "text", love: "<p>Boom! Challenge beaten! Today's long note is a reminder of how much comfort your presence brings...</p>" },
+            { day: 5, code: "PIZZA", type: "text", love: "<p>Pop sprint cleared! Sahej, looking back at how our friendship has grown, I am so grateful...</p>" },
+            { day: 6, code: "FLUFFY", type: "text", love: "<p>Scratch complete, Snugglebug! Today, I want you to realize how wildly capable you are...</p>" },
+            { day: 7, code: "HONEY", type: "text", love: "<p>Week one is officially complete! You dominated that heart catcher game, Sahej...</p>" },
+            { day: 8, code: "SPARK", type: "text", love: "<p>Correct! You are the most fiercely loyal person I know, Sahej...</p>" },
+            { day: 9, code: "KITTEN", type: "text", love: "<p>Matches complete! You're getting dangerously good at these puzzles, Sahej...</p>" },
+            { day: 10, code: "DONUT", type: "text", love: "<p>Day 10 cleared! Double digits! You popped those balloons like a pro...</p>" },
+            { day: 11, code: "CLOUD", type: "text", love: "<p>Sahej, your sense of humor is a literal medication for bad moods...</p>" },
+            { day: 12, code: "BERRY", type: "text", love: "<p>12 days down! You crushed that game! I hope today brings you zero anxieties...</p>" },
+            
+            // --- THE COMPREHENSIVELY REBUILT FINAL 15 DAYS ---
             { 
-                day: 1, code: "MANGO", type: "scratch", 
-                love: "<p>Hey Sahej! Welcome to your official birthday countdown station! I wanted to build this for you because you deserve an experience that shows exactly how important you are to me. You aren't just an ordinary best friend; you are my absolute anchor. Knowing you means having someone who genuinely understands me without any filters.</p><p>I hope this kicks off your birthday countdown month with a huge smile. Get ready, because you have to work for every single message from here on out! You are the absolute best person I could have ever asked to have in my corner, Snugglebug. Let's make these 27 days count!</p>" 
+                day: 13, code: "MAGIC", type: "day13", dogClass: "dog-bounce", dogIcon: "fa-solid fa-dog",
+                love: "<p><b>✨ Day 13: You Are Magic, Sahej! ✨</b></p><p>Sahej, you cleared the Pixel Painting sprint! I want to take a moment to tell you how incredibly unique your energy is. You possess this natural, effortless ability to make any normal, boring room completely light up the second you walk in or join a call. Your sense of humor is iconic, and you make me laugh harder than anyone else on Earth.</p><p>Thank you for being the person who knows my exact moods before I even say anything out loud. You are a treasure of a friend, Snugglebug, and I am so glad we are tracking closer and closer to your big celebration day!</p>" 
             },
             { 
-                day: 2, code: "COOKIE", type: "game", 
-                love: "<p>Incredible job clearing that game, Sahej! Honestly, your existence makes my life infinitely better. When I think about what makes our friendship so rare, it’s the fact that I can talk to you about absolutely everything and anything without ever feeling judged.</p><p>You have this unique gift of keeping me grounded while matching my level of insanity completely. Thank you for being the one person who always keeps it real with me. You are completely irreplaceable, and I honestly don't think I could ever find a better best friend if I searched the entire universe. Have a beautiful day, Guglu Mugluu!</p>" 
+                day: 14, code: "PUPPY", type: "day14", dogClass: "dog-spin", dogIcon: "fa-solid fa-bone",
+                love: "<p><b>☕ Day 14: Brewed to Perfection! ☕</b></p><p>Incredible job balancing the Chai Mixology lab! Just like a perfect warm cup of tea on a rainy afternoon, our deep, long conversations are my ultimate happy place. You are the ultimate partner-in-crime for anytime chaos, and your listening skills are unmatched.</p><p>Whenever things get chaotic or stressful, just knowing that I can send you an incredibly stupid meme or a massive text rant immediately brings me back down to Earth. You offer the safest, warmest sanctuary of friendship. Never lose your spark, you are phenomenal!</p>" 
             },
             { 
-                day: 3, code: "CHAI", type: "scramble", solution: "BESTIE",
-                love: "<p>You solved it! Sahej, you are the absolute definition of a true best friend. I don't say this nearly enough, but the sheer level of support you give me on a daily basis is something I cherish more than words can describe.</p><p>Whenever life gets hectic or stressful, just knowing I can message you or laugh about absolute nonsense with you instantly fixes my mood. You're the most reliable, hilarious, and kind-hearted person I know. I am so lucky to be the one who gets to call you my best friend. Never forget how much value you bring into my world!</p>" 
+                day: 15, code: "MELON", type: "day15", dogClass: "dog-wag", dogIcon: "fa-solid fa-hotdog",
+                love: "<p><b>🚀 Day 15: Flying High Above the Noise! 🚀</b></p><p>You dominated the Flappy Heart dash! This note is your direct reminder of how immensely strong and resilient you are. I see how deeply you care for people and the amazing effort you pour into protecting everyone you love. It’s a rare quality that makes you completely elite-tier.</p><p>You never settle for less, and you tackle challenges with so much style. I hope you give yourself credit for being a powerhouse. I am forever proud to call myself your number-one cheerleader, bestie!</p>" 
             },
             { 
-                day: 4, code: "SHINE", type: "memory", 
-                voucher: "<div class='voucher-ticket'>✨ THE FREE BOBA / COFFEE PASS ✨<br><span style='font-size:0.85rem'>Screenshot this ticket to claim a fresh beverage on me!</span></div>",
-                love: "<p>Boom! Challenge beaten! Along with this voucher, here is your daily reminder of why you are a literal queen, Sahej. You possess this brilliant spark that lights up every single conversation you walk into.</p><p>I constantly admire how fiercely caring you are toward the people you love. You go above and beyond for others effortlessly, and today I want to make sure you feel that exact same care directed entirely back at you. You deserve every ounce of happiness, ice cream, and success coming your way. You are a spectacular human being!</p>" 
+                day: 16, code: "PEACH", type: "day16", dogClass: "dog-jump", dogIcon: "fa-solid fa-paw",
+                voucher: "<div class='voucher-ticket'>🍑 AUTOMATIC BURGER / TREAT MANDATE 🍑<br><span style='font-size:0.85rem'>Present this voucher to instantly secure a custom snack delivery to your door!</span></div>",
+                love: "<p><b>🎵 Day 16: 'I'll Be There For You!' 🎵</b></p><p>Spot on lyric analysis! You unlocked a premium voucher ticket! Sahej, looking back across all our memories, laughs, and silly plans, it feels completely incredible how naturally we connect. There's zero performance or pretending required when we hang out—it's just pure, comfortable reality.</p><p>Thank you for keeping me accountable, keeping me completely laughing, and staying by my side with unparalleled loyalty. You are an absolute jewel of a human being.</p>" 
             },
             { 
-                day: 5, code: "PIZZA", type: "balloon", 
-                love: "<p>Pop sprint cleared! Sahej, looking back at how our friendship has grown, I am so incredibly grateful for the dynamic we share. You are the perfect companion for any plan—whether we are cooking up high-energy chaos or just talking about completely random things.</p><p>You bring so much structure, laughter, and brightness into my routine. I am incredibly lucky to have someone as authentic and genuine as you to share life's milestones with. You're simply elite-tier, and you deserve a perfect, stress-free day today!</p>" 
+                day: 17, code: "GALAXY", type: "day17", dogClass: "dog-float", dogIcon: "fa-solid fa-shield-dog",
+                love: "<p><b>🏹 Day 17: Aiming for the Stars! 🏹</b></p><p>Bullseye! You crushed Cupid's archery targets. Sahej, out of all the millions of social dynamics out there in the galaxy, our unique best-friendship is something I wouldn't trade for anything. You have an unmatched intellect and give the most grounding, level-headed advice whenever I'm overthinking.</p><p>You protect the people in your inner circle fiercely. Today, make sure to give yourself some well-deserved love and relaxation. You are spectacular!</p>" 
             },
             { 
-                day: 6, code: "FLUFFY", type: "scratch", 
-                love: "<p>Scratch complete, Snugglebug! Today, I want you to step back and realize how wildly capable you are. I see how hard you work and the dedication you bring to everything you do, and it inspires me constantly.</p><p>Whenever you doubt yourself, please remember how much strength and resilience you hold inside. I am always going to be right here cheering you on at every step, because that's exactly what a best friend is for. You deserve to achieve every single dream you have set your eyes on, Sahej!</p>" 
+                day: 18, code: "BUBBLE", type: "day18", dogClass: "dog-bounce", dogIcon: "fa-solid fa-cat",
+                love: "<p><b>🍦 Day 18: Stacked with Absolute Brilliance! 🍦</b></p><p>Look at that! A perfect ice cream stack tower! Sahej, your warmth and genuine kindness have an immediate ripple effect on everyone who knows you. You have this beautiful empathy that makes people feel completely heard, respected, and safe around you.</p><p>Don't ever lose that magic touch. You deserve a smooth, happy, completely stress-free day today with infinite scoops of your favorite dessert. Keep shining, Guglu Mugluu!</p>" 
             },
             { 
-                day: 7, code: "HONEY", type: "game", 
-                love: "<p>Week one is officially complete! You dominated that heart catcher game, Sahej. It's crazy to think we have already completed 7 days of this countdown. Time flies when you're celebrating the greatest best friend alive.</p><p>Thank you for showing up for me every day, for listening to my ridiculous rants, and for being the absolute safest space in my life. You are my absolute favorite human, and I hope this countdown is making you feel like the absolute royalty you are!</p>" 
+                day: 19, code: "SUNNY", type: "day19", dogClass: "dog-spin", dogIcon: "fa-solid fa-cookie",
+                love: "<p><b>🗺️ Day 19: Navigating Life with Style! 🗺️</b></p><p>You found the perfect path through the Memory Lane Maze! Sahej, you navigate life with such admirable maturity and poise. Even when things feel hectic, you preserve your wonderful sense of humor and light up our daily text logs.</p><p>Having a best friend who is simultaneously a brilliant advisor and a high-energy partner-in-crime is a true blessing. I cherish our bond more than words can say!</p>" 
             },
             { 
-                day: 8, code: "SPARK", type: "scramble", solution: "LOYAL",
-                love: "<p>Correct! You are the most fiercely loyal person I know, Sahej. Having you in my life means knowing that no matter what storm comes our way, I have a best friend who has my back completely, and I hope you know I have yours forever too.</p><p>Our bond isn't built on superficial things; it's a solid connection that I wouldn't trade for anything in the world. You make the rough days feel smooth and the good days feel like an absolute celebration. You're the greatest anchor a person could deserve!</p>" 
+                day: 20, code: "CUPCAKE", type: "day20", dogClass: "dog-wag", dogIcon: "fa-solid fa-poo",
+                voucher: "<div class='voucher-ticket'>🧁 THE LAZY DAY EXEMPTION PASS 🧁<br><span style='font-size:0.85rem'>Play this card to instantly choose any movie or plan without argument!</span></div>",
+                love: "<p><b>⚡ Day 20: Rapid Reflexes, Infinite Value! ⚡</b></p><p>Unbelievable speed! You cleared that clicking challenge with time to spare! Along with this pass, here is your daily reminder that you are a literal star. You bring an incredible brightness into my days, and your support is my ultimate safety net.</p><p>Thank you for being the most reliable anchor I could ever ask for. Only one single week left until the main grand celebration event!</p>" 
             },
             { 
-                day: 9, code: "KITTEN", type: "memory", 
-                love: "<p>Matches complete! You're getting dangerously good at these puzzles, Sahej. Today's long note is a reminder of how much comfort your presence brings. Even when we don't speak for hours, just knowing you are a simple text away gives me a huge sense of peace.</p><p>You have an aura that radiates warmth and clean comfort. Thank you for never pretending to be anyone else and for letting me be 100% myself around you. You are a true gem, Snugglebug.</p>" 
+                day: 21, code: "DREAM", type: "day21", dogClass: "dog-jump", dogIcon: "fa-solid fa-medal",
+                love: "<p><b>🏓 Day 21: Score a Win for Besties! 🏓</b></p><p>You completely styled on that AI goalie in Air Hockey! Today, I want you to dream incredibly big, Sahej. You are multi-talented, creative, and have the internal power to achieve every goal you set your eyes on.</p><p>Never doubt your capabilities or let stress cloud your vision. I will always be standing right by your side to celebrate every single one of your future victories. You are bound for great things!</p>" 
             },
             { 
-                day: 10, code: "DONUT", type: "balloon", 
-                voucher: "<div class='voucher-ticket'>🍩 THE LAZY DAY COMPLIANCE CARD 🍩<br><span style='font-size:0.85rem'>Play this card to make me agree to any movie choice without complaints!</span></div>",
-                love: "<p>Day 10 cleared! Double digits! You popped those balloons like a pro. Along with your new voucher, I want to emphasize how much I value your unique intellect and wisdom, Sahej.</p><p>You give the most level-headed advice and see things with such clarity. I always trust your perspective because you want what is absolutely best for me. Thank you for guiding me when I'm lost and celebrating with me when I win. You are the premium standard of what a best friend should be.</p>" 
+                day: 22, code: "BLOSSOM", type: "day22", dogClass: "dog-float", dogIcon: "fa-solid fa-trophy",
+                love: "<p><b>🧲 Day 22: Unbreakable Bonds! 🧲</b></p><p>Snap! Puzzle solved flawlessly. Our bestie bond is exactly like that magnetic puzzle—completely solid and impossible to break apart. Thank you for the endless inside jokes, the shared laugh lines, and for being someone I can trust with my absolute deepest secrets.</p><p>You're an exceptional listener and a brilliant human being. Have an absolutely gorgeous day today, Snugglebug!</p>" 
             },
-            { day: 11, code: "CLOUD", type: "scratch", love: "<p>Sahej, your sense of humor is a literal medication for bad moods. I swear nobody else on this planet can make me laugh the way you do. We can turn the most boring situations into absolute core memories within minutes. Thank you for filling my days with genuine happiness and infinite inside jokes. You're a constant joy to be around, Snugglebug!</p>" },
-            { day: 12, code: "BERRY", type: "game", love: "<p>12 days down! You crushed that game! I hope today brings you zero anxieties and infinite energy. I want you to remember that your kindness leaves an echo in everyone's lives. You do so much for the people around you, and I hope you take some time out today to pamper yourself completely. You're simply the best, Sahej!</p>" },
-            { day: 13, code: "MAGIC", type: "scramble", solution: "GENIUS", love: "<p>You found the solution! We are officially at the halfway mark of your birthday countdown, Sahej! It feels magical how seamlessly we clicked as best friends. I am so incredibly thankful that our paths crossed. You make life feel like a fun adventure rather than a stressful race. You're my favorite teammate in everything!</p>" },
-            { day: 14, code: "PUPPY", type: "memory", love: "<p>Memory grid completely cleared! Sending you a massive, giant virtual hug through your phone screen right now. I hope you can feel how much you are appreciated today. Thank you for your endless patience and for always knowing exactly what to say to make me feel better. You are a golden soul, Sahej.</p>" },
-            { day: 15, code: "MELON", type: "balloon", love: "<p>Baloon blitz completed! Sahej, you have an incredible gift of making people feel seen and valued. Whenever I talk to you, I feel completely heard. That is such a rare quality in today's world, and it makes you stand out as an incredibly special human being. I am beyond proud of the person you are.</p>" },
             { 
-                day: 16, code: "PEACH", type: "scratch", 
-                voucher: "<div class='voucher-ticket'>🍑 THE AUTOMATIC RANT LISTENER PASS 🍑<br><span style='font-size:0.85rem'>Entitles you to a 30-minute uninterrupted telephone venting session.</span></div>",
-                love: "<p>You scratched it open! Here is your daily reminder that you are an absolute rockstar, Sahej. Life can throw all kinds of hurdles, but seeing how you handle everything with grace and determination makes me so proud. You're an incredible friend, an exceptional listener, and you deserve the absolute universe.</p>" 
+                day: 23, code: "COZY", type: "day23", dogClass: "dog-bounce", dogIcon: "fa-solid fa-star-and-crescent",
+                love: "<p><b>🪐 Day 23: Written in the Stars! 🪐</b></p><p>Beautifully drawn star constellation! Our connection feels like it was written in the stars, Sahej. We can seamlessly shift from talking about heavy, deep philosophical thoughts to absolute hilarious brainrot within five seconds.</p><p>There is never a single dull or uninspired minute when you are around. Thank you for making my life endlessly entertaining and bright!</p>" 
             },
-            { day: 17, code: "GALAXY", type: "game", love: "<p>Score of 150 reached! Outstanding focus, Sahej! Out of all the billions of people across the galaxy, I got paired up with you as my best friend, and I think that's the biggest win of my life. You bring a stellar level of cosmic energy into my world. Thank you for being my constant guiding light when things get confusing!</p>" },
-            { day: 18, code: "BUBBLE", type: "scramble", solution: "SUNSHINE", love: "<p>Spot on! You are literal sunshine, Sahej. Even on the gloomiest, most boring days, a single text from you can completely reverse the weather in my mind. Thank you for sharing your incredible, bright, positive warmth with me every single day. You're my favorite blessing!</p>" },
-            { day: 19, code: "SUNNY", type: "memory", love: "<p>19 days checked off! Excellent memory alignment. Sahej, I want to thank you for simply being my constant comfort. No matter how much things change around us, our friendship remains a solid, unchanging rock. Knowing I have you in my corner gives me so much confidence to face any day. You're elite!</p>" },
-            { day: 20, code: "CUPCAKE", type: "balloon", love: "<p>20 days completed! Only one single week left until the grand finale! You popped those targets perfectly. Today I want to remind you that your sensitivity and empathy are your greatest superpowers. You care deeply, and that is what makes you the most beautiful person inside and out, Guglu Mugluu.</p>" },
-            { day: 21, code: "DREAM", type: "scratch", love: "<p>Scratch complete! Dream big today, Sahej! You are multi-talented, brilliant, and possess the drive to turn your biggest aspirations into reality. Don't let anything slow down your momentum. I believe in you completely, and I will always be standing right next to you to celebrate your victories!</p>" },
             { 
-                day: 22, code: "BLOSSOM", type: "game", 
-                voucher: "<div class='voucher-ticket'>🌸 FREE ICE CREAM MANDATE 🌸<br><span style='font-size:0.85rem'>Redeemable instantly for an ice cream delivery directly to your house!</span></div>",
-                love: "<p>Game beaten! Enjoy your sweet ice cream coupon! Today, Sahej, think about how much you have grown as a person. Your emotional maturity and integrity inspire me constantly. You handle your life with so much authenticity, and I consider myself incredibly lucky to watch you bloom into such a spectacular person.</p>" 
+                day: 24, code: "LUCKY", type: "day24", dogClass: "dog-spin", dogIcon: "fa-solid fa-gem",
+                love: "<p><b>🪙 Day 24: The Ultimate Jackpot! 🪙</b></p><p>First try! You tracked down the hidden ring like an absolute champion. My message today is filled with absolute gratitude. Thank you for your endless patience, your quiet protective support, and the genuine joy you offer as a bestie.</p><p>I am undeniably the luckiest friend in the universe to have you in my life. Only 3 days until the main event!</p>" 
             },
-            { day: 23, code: "COZY", type: "scramble", solution: "ANGEL", love: "<p>Unscrambled perfectly! Our chats are the absolute definition of cozy, Snugglebug. Thank you for creating an environment where we can discuss philosophy one minute and absolute goofy brainrot the next. There is never a dull second when you are around. You make life highly entertaining!</p>" },
-            { day: 24, code: "LUCKY", type: "memory", love: "<p>Only 3 days left until the main event! You cleared the board! Today, my message to you is pure gratitude. Thank you for the shared laughter, the quiet support, the hilarious jokes, and the endless protection you offer as a bestie. I am undeniably the luckiest friend in the universe to have you.</p>" },
-            { day: 25, code: "RAINBOW", type: "balloon", love: "<p>25 days down! The anticipation is hitting maximum threshold! You cleared the balloon sprint beautifully. You bring a full spectrum of color and vibrant life into my routine, Sahej. Thank you for erasing the black-and-white boredom and making every day feel like a bright celebration.</p>" },
-            { day: 26, code: "ANGEL", type: "scratch", love: "<p>It is officially Birthday Eve, Sahej! 👼 Rest well tonight, empty your mind of all stress, and prepare yourself, because tomorrow the whole world revolves entirely around you. Thank you for surviving 26 days of my digital puzzles. Sleep well, Snugglebug, tomorrow is going to be unforgettable!</p>" },
             { 
-                day: 27, code: "HURRAY", type: "text", title: "🎁 HAPPY BIRTHDAY SAHEJ! 🎁", 
-                love: "<p><b>HAPPY BIRTHDAY TO MY ABSOLUTE BESTEST FRIEND IN THE UNIVERSE! 🥳🎉🎂</b></p><p>Sahej, you have officially made it to July 10th! Today is entirely about celebrating the most magnificent, hilarious, and phenomenal human being to ever exist. You are the absolute greatest asset in my life, and I honestly do not know what I would do without your light, your daily texts, and your unmatched companionship.</p><p>I hope this entire year treats you like the absolute royalty you are, fulfilling every single dream, goal, and wish you have. Thank you for being the most incredible best friend I could ever deserve. Today, tomorrow, and forever, I have your back. Let's celebrate your day to the absolute maximum! 💖✨" 
+                day: 25, code: "RAINBOW", type: "day25", dogClass: "dog-wag", dogIcon: "fa-solid fa-crown",
+                love: "<p><b>🧱 Day 25: Crushing Walls, Building Dreams! 🧱</b></p><p>Boom! You completely shattered the brick columns! You bring a full, vibrant spectrum of color into my daily routine, Sahej. Thank you for erasing all boring, black-and-white moments and turning our text threads into constant fun.</p><p>The anticipation for July 10th is hitting max volume now! Have a perfect day, Queen!</p>" 
+            },
+            { 
+                day: 26, code: "ANGEL", type: "day26", dogClass: "dog-jump", dogIcon: "fa-solid fa-wand-magic-sparkles",
+                love: "<p><b>🕯️ Day 26: Welcome to Birthday Eve! 🕯️</b></p><p>All candles blown out perfectly! Sahej, empty your mind of all worries or anxieties tonight. Sleep incredibly well and get ready, because tomorrow the whole world revolves entirely around you.</p><p>Thank you for surviving 26 days of my digital code puzzles. Relax, smile, and rest up, Snugglebug—tomorrow is going to be unforgettable!</p>" 
+            },
+            { 
+                day: 27, code: "HURRAY", type: "day27", dogClass: "dog-float", dogIcon: "fa-solid fa-gift",
+                love: "<p><b>🥳🎉 HAPPY BIRTHDAY SAHEJ! 🎉🥳</b></p><p><b>YOU MADE IT TO JULY 10TH!</b> Today is entirely about celebrating the most magnificent, hilarious, and phenomenal human being to ever exist. You are the absolute greatest asset in my life, and I honestly do not know what I would do without your light, your daily texts, and your unmatched companionship.</p><p>I hope this entire year treats you like the absolute royalty you are, fulfilling every single dream, goal, and wish you have. Thank you for being the most incredible best friend I could ever deserve. Today, tomorrow, and forever, I have your back. Let's celebrate your day to the absolute maximum! 💖✨</p>" 
             }
         ];
 
@@ -483,6 +582,8 @@
             document.getElementById('passwordField').value = '';
             document.getElementById('portalOverlay').classList.add('active');
             document.getElementById('rewardContainer').style.display = 'none';
+            document.getElementById('readyCheckArea').style.display = 'none';
+            document.getElementById('countdownScreen').style.display = 'none';
 
             if (isUnlocked) {
                 bypassGateAndDisplayTask(targetData);
@@ -505,45 +606,60 @@
             const card = document.getElementById('modalCard');
 
             if (entered === target.code) {
-                bypassGateAndDisplayTask(target);
+                document.getElementById('gateArea').style.display = 'none';
+                document.getElementById('readyCheckArea').style.display = 'block';
             } else {
                 card.classList.add('shake');
                 setTimeout(() => card.classList.remove('shake'), 400);
             }
         }
 
+        function triggerLiveCountdown() {
+            document.getElementById('readyCheckArea').style.display = 'none';
+            const screen = document.getElementById('countdownScreen');
+            screen.style.display = 'block';
+            
+            let count = 3;
+            screen.innerText = count;
+
+            let ticker = setInterval(() => {
+                count--;
+                if (count === 0) {
+                    screen.innerText = "GO!";
+                } else if (count < 0) {
+                    clearInterval(ticker);
+                    screen.style.display = 'none';
+                    bypassGateAndDisplayTask(configDatabase[activeTargetIndex]);
+                } else {
+                    screen.innerText = count;
+                }
+            }, 800);
+        }
+
         function bypassGateAndDisplayTask(target) {
-            document.getElementById('gateArea').style.display = 'none';
             document.getElementById('contentArea').style.display = 'block';
 
-            document.getElementById('task-scratch').classList.remove('active');
-            document.getElementById('task-game').classList.remove('active');
-            document.getElementById('task-scramble').classList.remove('active');
-            document.getElementById('task-memory').classList.remove('active');
-            document.getElementById('task-balloon').classList.remove('active');
+            // Hide all potential containers safely
+            for(let d=13; d<=27; d++) {
+                let block = document.getElementById(`task-day${d}`);
+                if(block) block.classList.remove('active');
+            }
             document.getElementById('task-text').classList.remove('active');
 
-            if (unlockedEnvelopes.includes(target.day) || target.type === "text") {
+            if (unlockedEnvelopes.includes(target.day)) {
                 document.getElementById('task-text').classList.add('active');
                 revealFinalReward(target);
                 return;
             }
 
-            if (target.type === "scratch") {
-                document.getElementById('task-scratch').classList.add('active');
-                initScratchCard(target);
-            } else if (target.type === "game") {
-                document.getElementById('task-game').classList.add('active');
-                initCatchGame(target);
-            } else if (target.type === "scramble") {
-                document.getElementById('task-scramble').classList.add('active');
-                initWordScramble(target);
-            } else if (target.type === "memory") {
-                document.getElementById('task-memory').classList.add('active');
-                initMemoryMatch(target);
-            } else if (target.type === "balloon") {
-                document.getElementById('task-balloon').classList.add('active');
-                initBalloonPopper(target);
+            // Route execution engine dynamically
+            const container = document.getElementById(`task-${target.type}`);
+            if (container) {
+                container.classList.add('active');
+                executeGameEngine(target.type, target);
+            } else {
+                document.getElementById('task-text').classList.add('active');
+                revealFinalReward(target);
             }
         }
 
@@ -557,245 +673,320 @@
         }
 
         function revealFinalReward(target) {
-            document.getElementById('task-scratch').classList.remove('active');
-            document.getElementById('task-game').classList.remove('active');
-            document.getElementById('task-scramble').classList.remove('active');
-            document.getElementById('task-memory').classList.remove('active');
-            document.getElementById('task-balloon').classList.remove('active');
+            // Hide all active game frames
+            for(let d=13; d<=27; d++) {
+                let block = document.getElementById(`task-day${d}`);
+                if(block) block.classList.remove('active');
+            }
             
             document.getElementById('task-text').classList.add('active');
             document.getElementById('rewardContainer').style.display = 'block';
+            document.getElementById('rewardTitle').innerText = target.day === 27 ? "🎂 HAPPY BIRTHDAY SAHEJ! 🎂" : `Day ${target.day} Opened 💖`;
             
-            if(target.day === 27) {
-                document.getElementById('rewardTitle').innerText = "🎂 HAPPY BIRTHDAY SAHEJ! 🎂";
+            // Build custom animated dog character if available
+            const dogBox = document.getElementById('dogAvatarPlacement');
+            if(target.dogIcon) {
+                dogBox.innerHTML = `<div class="dog-house ${target.dogClass}"><i class="${target.dogIcon}"></i></div>`;
             } else {
-                document.getElementById('rewardTitle').innerText = `Day ${target.day} Opened 💖`;
+                dogBox.innerHTML = '';
             }
-            
+
             document.getElementById('voucherPlacement').innerHTML = target.voucher ? target.voucher : '';
             document.getElementById('loveMessageBody').innerHTML = target.love;
         }
 
-        // ================= GAME MODULES ERECTED BELOW =================
+        // ROUTER FOR LAUNCHING INDIVIDUAL GAME MECHANICS
+        function executeGameEngine(type, target) {
+            clearInterval(gameInterval);
+            if(type === "day13") runDay13();
+            if(type === "day14") runDay14();
+            if(type === "day15") runDay15();
+            if(type === "day17") runDay17();
+            if(type === "day18") runDay18();
+            if(type === "day19") runDay19();
+            if(type === "day21") runDay21();
+            if(type === "day22") runDay22();
+            if(type === "day23") runDay23();
+            if(type === "day25") runDay25();
+            if(type === "day26") runDay26();
+        }
 
-        // 1. SCRATCH ENGINE
-        function initScratchCard(target) {
-            const canvas = document.getElementById('scratchCanvas');
-            canvas.width = 260; canvas.height = 160;
+        // ================= THE 15 NEW ENGINE HOUSES =================
+
+        // DAY 13: PIXELS PAINT
+        function runDay13() {
+            const canvas = document.getElementById('canvas-day13');
             const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#d3d3d3'; ctx.fillRect(0,0,280,200);
+            ctx.fillStyle = '#590d22'; ctx.font = 'bold 13px Nunito'; ctx.fillText('Drag to reveal art! 🎨', 70, 100);
             
-            ctx.fillStyle = '#c0c0c0';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#590d22';
-            ctx.font = 'bold 14px Nunito';
-            ctx.textAlign = 'center';
-            ctx.fillText('Scratch completely to open! 🧼', canvas.width/2, canvas.height/2 + 5);
-
-            let isDrawing = false;
-            let totalPixels = canvas.width * canvas.height;
-            
-            function scratch(e) {
-                if(!isDrawing) return;
+            let painted = 0;
+            function draw(e) {
                 const rect = canvas.getBoundingClientRect();
                 const clientX = e.clientX || (e.touches && e.touches[0].clientX);
                 const clientY = e.clientY || (e.touches && e.touches[0].clientY);
-                if(!clientX || !clientY) return;
-
-                const x = clientX - rect.left;
-                const y = clientY - rect.top;
-
-                ctx.globalCompositeOperation = 'destination-out';
-                ctx.beginPath(); ctx.arc(x, y, 22, 0, Math.PI * 2); ctx.fill();
-                
-                checkScratchPercentage();
+                if(!clientX) return;
+                let x = clientX - rect.left; let y = clientY - rect.top;
+                ctx.clearRect(x-15, y-15, 30, 30);
+                painted++;
+                if(painted > 75) { canvas.onmousemove = null; canvas.ontouchmove = null; handleChallengeWin(configDatabase[activeTargetIndex]); }
             }
-
-            function checkScratchPercentage() {
-                const imgData = ctx.getImageData(0,0,canvas.width,canvas.height);
-                let cleared = 0;
-                for(let i=3; i<imgData.data.length; i+=4) {
-                    if(imgData.data[i] === 0) cleared++;
-                }
-                if((cleared / totalPixels) >= 0.85) {
-                    isDrawing = false;
-                    handleChallengeWin(target);
-                }
-            }
-
-            canvas.onmousedown = () => isDrawing = true;
-            canvas.onmouseup = () => isDrawing = false;
-            canvas.onmousemove = scratch;
-            canvas.ontouchstart = () => isDrawing = true;
-            canvas.ontouchend = () => isDrawing = false;
-            canvas.ontouchmove = (e) => { scratch(e); e.preventDefault(); };
+            canvas.onmousemove = draw; canvas.ontouchmove = draw;
         }
 
-        // 2. CATCH ENGINE
-        function initCatchGame(target) {
-            const canvas = document.getElementById('gameCanvas');
-            canvas.width = 280; canvas.height = 200;
-            const ctx = canvas.getContext('2d');
-            const scoreDisplay = document.getElementById('gameScoreTrack');
-            
-            let score = 0;
-            scoreDisplay.innerText = "Score: 0 / 150";
-            let basket = { x: canvas.width/2 - 25, y: canvas.height - 20, w: 55, h: 12 };
-            let hearts = [];
-
-            function moveBasket(clientX) {
-                const rect = canvas.getBoundingClientRect();
-                basket.x = (clientX - rect.left) - basket.w/2;
-                if(basket.x < 0) basket.x = 0;
-                if(basket.x > canvas.width - basket.w) basket.x = canvas.width - basket.w;
-            }
-
-            window.onmousemove = (e) => { if(document.getElementById('task-game').classList.contains('active')) moveBasket(e.clientX); };
-            canvas.ontouchmove = (e) => { moveBasket(e.touches[0].clientX); e.preventDefault(); };
-
-            clearInterval(gameInterval);
-            gameInterval = setInterval(() => {
-                if(Math.random() < 0.07) {
-                    hearts.push({ x: Math.random() * (canvas.width - 20), y: 0, speed: 3.5 });
-                }
-
-                for(let i=hearts.length-1; i>=0; i--) {
-                    hearts[i].y += hearts[i].speed;
-                    if(hearts[i].y + 12 >= basket.y && hearts[i].x + 12 >= basket.x && hearts[i].x <= basket.x + basket.w) {
-                        score += 10;
-                        scoreDisplay.innerText = `Score: ${score} / 150`;
-                        hearts.splice(i, 1);
-                        continue;
-                    }
-                    if(hearts[i].y > canvas.height) hearts.splice(i,1);
-                }
-
-                if(score >= 150) {
-                    clearInterval(gameInterval);
-                    handleChallengeWin(target);
-                    return;
-                }
-
-                ctx.clearRect(0,0,canvas.width,canvas.height);
-                ctx.fillStyle = '#ff758f';
-                ctx.fillRect(basket.x, basket.y, basket.w, basket.h);
-                ctx.fillStyle = '#ff4d6d'; ctx.font = '14px Arial';
-                hearts.forEach(h => ctx.fillText('❤️', h.x, h.y));
-            }, 1000/30);
+        // DAY 14: CHAI MIXOLOGY
+        function updateLabSliders() {
+            document.getElementById('lbl-c1').innerText = `Chai Patti: ${document.getElementById('sld-c1').value}%`;
+            document.getElementById('lbl-c2').innerText = `Milk Volume: ${document.getElementById('sld-c2').value}%`;
         }
-
-        // 3. SCRAMBLE ENGINE
-        function initWordScramble(target) {
-            document.getElementById('scrambleInputField').value = '';
-            const original = target.solution;
-            const scrambled = original.split('').sort(() => Math.random() - 0.5).join('');
-            document.getElementById('scrambleWordDisplay').innerText = scrambled === original ? scrambled.split('').reverse().join('') : scrambled;
-        }
-
-        function checkUnscrambleAnswer() {
-            const val = document.getElementById('scrambleInputField').value.trim().toUpperCase();
-            const target = configDatabase[activeTargetIndex];
-            if(val === target.solution) {
-                handleChallengeWin(target);
+        function checkChaiLabMix() {
+            let v1 = document.getElementById('sld-c1').value;
+            let v2 = document.getElementById('sld-c2').value;
+            if(Math.abs(v1 - 70) < 8 && Math.abs(v2 - 30) < 8) {
+                handleChallengeWin(configDatabase[activeTargetIndex]);
             } else {
                 document.getElementById('modalCard').classList.add('shake');
                 setTimeout(() => document.getElementById('modalCard').classList.remove('shake'), 400);
             }
         }
 
-        // 4. MEMORY ENGINE
-        function initMemoryMatch(target) {
-            const container = document.getElementById('memoryGridContainer');
-            container.innerHTML = '';
-            const symbols = ['🌸','🌸','⭐','⭐','🧸','🧸','💎','💎','🎈','🎈','🍩','🍩','🐱','🐱','🥑','🥑'];
-            const shuffled = symbols.sort(() => Math.random() - 0.5);
-            
-            let chosenCards = [];
-            let matchedCount = 0;
+        // DAY 15: FLAPPY HEART
+        function runDay15() {
+            const canvas = document.getElementById('canvas-day15'); const ctx = canvas.getContext('2d');
+            let score = 0; let hy = 100; let hval = 0; let px = 280; let gap = 85; let py = 60;
+            document.getElementById('score-day15').innerText = "Score: 0 / 5";
 
-            shuffled.forEach((sym, idx) => {
-                const card = document.createElement('div');
-                card.className = 'memory-card';
-                card.dataset.symbol = sym;
-                card.dataset.id = idx;
-                card.innerText = '❓';
+            canvas.onclick = () => { hval = -4.5; };
+            canvas.ontouchstart = () => { hval = -4.5; };
+
+            gameInterval = setInterval(() => {
+                hval += 0.35; hy += hval; px -= 3.5;
+                if(px < -30) { px = 280; py = Math.random()*80 + 20; score++; document.getElementById('score-day15').innerText = `Score: ${score} / 5`; }
+                if(score >= 5) { clearInterval(gameInterval); handleChallengeWin(configDatabase[activeTargetIndex]); }
+                if(hy > 200 || hy < 0 || (px < 50 && px > 10 && (hy < py || hy > py+gap))) { hy = 100; hval = 0; px = 280; score = 0; }
                 
-                card.onclick = () => {
-                    if(card.classList.contains('flipped') || chosenCards.length >= 2) return;
-                    card.classList.add('flipped');
-                    card.innerText = sym;
-                    chosenCards.push(card);
-
-                    if(chosenCards.length === 2) {
-                        if(chosenCards[0].dataset.symbol === chosenCards[1].dataset.symbol) {
-                            matchedCount += 2;
-                            chosenCards = [];
-                            if(matchedCount === 16) setTimeout(() => handleChallengeWin(target), 500);
-                        } else {
-                            setTimeout(() => {
-                                chosenCards[0].classList.remove('flipped'); chosenCards[0].innerText = '❓';
-                                chosenCards[1].classList.remove('flipped'); chosenCards[1].innerText = '❓';
-                                chosenCards = [];
-                            }, 700);
-                        }
-                    }
-                };
-                container.appendChild(card);
-            });
+                ctx.clearRect(0,0,280,200);
+                ctx.fillStyle = '#ff4d6d'; ctx.fillText('❤️', 30, hy);
+                ctx.fillStyle = '#2a9d8f'; ctx.fillRect(px, 0, 30, py); ctx.fillRect(px, py+gap, 30, 200);
+            }, 30);
         }
 
-        // 5. BALLOON POP ENGINE
-        function initBalloonPopper(target) {
-            const canvas = document.getElementById('balloonCanvas');
-            canvas.width = 280; canvas.height = 200;
-            const ctx = canvas.getContext('2d');
-            const popperDisplay = document.getElementById('balloonScoreTrack');
+        // DAY 16: LYRIC CHECK
+        function checkLyricDay16() {
+            if(document.getElementById('input-day16').value.trim().toUpperCase() === "ME") {
+                handleChallengeWin(configDatabase[activeTargetIndex]);
+            } else {
+                document.getElementById('modalCard').classList.add('shake');
+                setTimeout(() => document.getElementById('modalCard').classList.remove('shake'), 400);
+            }
+        }
+
+        // DAY 17: CUPID ARCHERY
+        function runDay17() {
+            const canvas = document.getElementById('canvas-day17'); const ctx = canvas.getContext('2d');
+            let score = 0; let tx = 0; let ts = 3; let arrow = null;
+            document.getElementById('score-day17').innerText = "Hits: 0 / 5";
+
+            canvas.onclick = (e) => { if(!arrow) arrow = { x: e.clientX - canvas.getBoundingClientRect().left, y: 200 }; };
             
-            let pops = 0;
-            popperDisplay.innerText = "Pops: 0 / 20";
-            let balloons = [];
-
-            clearInterval(gameInterval);
             gameInterval = setInterval(() => {
-                if(Math.random() < 0.06) {
-                    balloons.push({ x: Math.random() * (canvas.width - 25), y: canvas.height, radius: 14, speed: 2 });
+                tx += ts; if(tx > 260 || tx < 0) ts = -ts;
+                if(arrow) {
+                    arrow.y -= 7;
+                    if(arrow.y < 25 && arrow.x > tx && arrow.x < tx+35) { score++; document.getElementById('score-day17').innerText = `Hits: ${score} / 5`; arrow = null; }
+                    else if(arrow.y < 0) arrow = null;
                 }
+                if(score >= 5) { clearInterval(gameInterval); handleChallengeWin(configDatabase[activeTargetIndex]); }
+                ctx.clearRect(0,0,280,200);
+                ctx.fillStyle = '#ff758f'; ctx.fillRect(tx, 15, 35, 15);
+                if(arrow) { ctx.fillStyle = '#000'; ctx.fillRect(arrow.x, arrow.y, 4, 15); }
+            }, 30);
+        }
 
-                for(let i=balloons.length-1; i>=0; i--) {
-                    balloons[i].y -= balloons[i].speed;
-                    if(balloons[i].y < -20) balloons.splice(i, 1);
-                }
+        // DAY 18: ICE CREAM STACK
+        function runDay18() {
+            const canvas = document.getElementById('canvas-day18'); const ctx = canvas.getContext('2d');
+            let count = 0; let sx = 140; let ss = 4; let falling = false; let sy = 20;
+            document.getElementById('score-day18').innerText = "Scoops Stacked: 0 / 4";
 
-                ctx.clearRect(0,0,canvas.width,canvas.height);
-                ctx.fillStyle = '#ff4d6d';
-                balloons.forEach(b => {
-                    ctx.beginPath(); ctx.arc(b.x, b.y, b.radius, 0, Math.PI*2); ctx.fill();
-                    ctx.beginPath(); ctx.moveTo(b.x, b.y + b.radius); ctx.lineTo(b.x, b.y + b.radius + 8); ctx.strokeStyle = '#ff758f'; ctx.stroke();
-                });
-            }, 1000/30);
+            canvas.onclick = () => { falling = true; };
 
-            canvas.onmousedown = (e) => handlePopClick(e.clientX, e.clientY);
-            canvas.ontouchstart = (e) => { handlePopClick(e.touches[0].clientX, e.touches[0].clientY); e.preventDefault(); };
-
-            function handlePopClick(clientX, clientY) {
-                const rect = canvas.getBoundingClientRect();
-                const clickX = clientX - rect.left;
-                const clickY = clientY - rect.top;
-
-                for(let i=balloons.length-1; i>=0; i--) {
-                    let b = balloons[i];
-                    let dist = Math.sqrt((clickX - b.x)**2 + (clickY - b.y)**2);
-                    if(dist <= b.radius + 8) {
-                        pops++;
-                        popperDisplay.innerText = `Pops: ${pops} / 20`;
-                        balloons.splice(i, 1);
-                        break;
+            gameInterval = setInterval(() => {
+                if(!falling) { sx += ss; if(sx > 240 || sx < 20) ss = -ss; } 
+                else {
+                    sy += 6;
+                    let targetY = 200 - (count * 15);
+                    if(sy >= targetY) {
+                        if(Math.abs(sx - 140) < 28) { count++; document.getElementById('score-day18').innerText = `Scoops Stacked: ${count} / 4`; }
+                        falling = false; sy = 20;
                     }
                 }
+                if(count >= 4) { clearInterval(gameInterval); handleChallengeWin(configDatabase[activeTargetIndex]); }
+                ctx.clearRect(0,0,280,220);
+                ctx.fillStyle = '#e6ccb2'; ctx.fillRect(125, 200, 30, 20); // Cone
+                ctx.fillStyle = '#ffcad4';
+                for(let i=0; i<count; i++) ctx.fillRect(120, 185 - (i*15), 40, 15);
+                ctx.fillStyle = '#b5e2fa'; ctx.fillRect(sx, sy, 35, 15);
+            }, 30);
+        }
 
-                if(pops >= 20) {
-                    clearInterval(gameInterval);
-                    handleChallengeWin(target);
-                }
+        // DAY 19: MAZE RUNNER
+        function runDay19() {
+            const canvas = document.getElementById('canvas-day19'); const ctx = canvas.getContext('2d');
+            let mx = 25; let my = 25;
+            function drawMaze() {
+                ctx.clearRect(0,0,260,200);
+                ctx.fillStyle = '#590d22'; ctx.fillRect(0, 60, 180, 15); ctx.fillRect(80, 130, 180, 15);
+                ctx.fillStyle = '#2a9d8f'; ctx.font = '20px Arial'; ctx.fillText('⭐', 220, 175);
+                ctx.fillStyle = '#ff4d6d'; ctx.beginPath(); ctx.arc(mx, my, 10, 0, Math.PI*2); ctx.fill();
+            }
+            canvas.ontouchmove = (e) => {
+                let rect = canvas.getBoundingClientRect();
+                mx = e.touches[0].clientX - rect.left; my = e.touches[0].clientY - rect.top;
+                drawMaze();
+                if(mx > 200 && my > 150) { canvas.ontouchmove = null; handleChallengeWin(configDatabase[activeTargetIndex]); }
+            };
+            drawMaze();
+        }
+
+        // DAY 20: REFLEX ACTION
+        let simonTaps = 25; let timeBar = 260;
+        function runDay20() {
+            simonTaps = 25; timeBar = 260;
+            document.getElementById('score-day20').innerText = `Taps Left: ${simonTaps}`;
+            const canvas = document.getElementById('canvas-day20'); const ctx = canvas.getContext('2d');
+            gameInterval = setInterval(() => {
+                timeBar -= 1.2;
+                ctx.clearRect(0,0,260,30);
+                ctx.fillStyle = '#ff4d6d'; ctx.fillRect(0,0,timeBar,30);
+                if(timeBar <= 0) { clearInterval(gameInterval); simonTaps = 25; }
+            }, 35);
+        }
+        function clickSimonSaysReflex() {
+            if(timeBar > 0 && simonTaps > 0) {
+                simonTaps--; document.getElementById('score-day20').innerText = `Taps Left: ${simonTaps}`;
+                if(simonTaps <= 0) { clearInterval(gameInterval); handleChallengeWin(configDatabase[activeTargetIndex]); }
+            }
+        }
+
+        // DAY 21: AIR HOCKEY
+        function runDay21() {
+            const canvas = document.getElementById('canvas-day21'); const ctx = canvas.getContext('2d');
+            let bx = 140, by = 110, bdx = 3, bdy = 3, px = 110, score = 0;
+            canvas.ontouchmove = (e) => { px = (e.touches[0].clientX - canvas.getBoundingClientRect().left) - 30; };
+            gameInterval = setInterval(() => {
+                bx += bdx; by += bdy;
+                if(bx<0 || bx>270) bdx = -bdx;
+                if(by<0) { bdy = -bdy; score++; document.getElementById('score-day21').innerText = `You: ${score} | AI: 0`; }
+                if(by>205 && bx>px && bx<px+60) bdy = -bdy;
+                if(by>220) { bx=140; by=110; score=0; bdy=3; document.getElementById('score-day21').innerText = "You: 0 | AI: 0"; }
+                if(score >= 3) { clearInterval(gameInterval); handleChallengeWin(configDatabase[activeTargetIndex]); }
+                ctx.clearRect(0,0,280,220);
+                ctx.fillStyle = '#ff758f'; ctx.fillRect(px, 205, 60, 10);
+                ctx.fillStyle = '#2a9d8f'; ctx.fillRect(bx-3, 0, 40, 8);
+                ctx.fillStyle = '#ff4d6d'; ctx.beginPath(); ctx.arc(bx, by, 7, 0, Math.PI*2); ctx.fill();
+            }, 30);
+        }
+
+        // DAY 22: MAGNETIC SNAPPING BOX
+        function runDay22() {
+            const canvas = document.getElementById('canvas-day22'); const ctx = canvas.getContext('2d');
+            let bx = 20, by = 50;
+            function drawSnap() {
+                ctx.clearRect(0,0,280,180);
+                ctx.fillStyle = '#ffcad4'; ctx.fillRect(200, 50, 40, 40); // Static Pink Box
+                ctx.fillStyle = '#b5e2fa'; ctx.fillRect(bx, by, 40, 40); // User Move Box
+            }
+            canvas.ontouchmove = (e) => {
+                let rect = canvas.getBoundingClientRect();
+                bx = e.touches[0].clientX - rect.left - 20; by = e.touches[0].clientY - rect.top - 20;
+                drawSnap();
+                if(Math.abs(bx - 200) < 15 && Math.abs(by - 50) < 15) { canvas.ontouchmove = null; handleChallengeWin(configDatabase[activeTargetIndex]); }
+            };
+            drawSnap();
+        }
+
+        // DAY 23: CONSTELLATION CONNECTOR
+        function runDay23() {
+            const canvas = document.getElementById('canvas-day23'); const ctx = canvas.getContext('2d');
+            let c1=false, c2=false;
+            gameInterval = setInterval(() => {
+                ctx.clearRect(0,0,280,180);
+                ctx.fillStyle = c1?'#2a9d8f':'#000'; ctx.fillText('1', 30, 50);
+                ctx.fillStyle = c2?'#2a9d8f':'#000'; ctx.fillText('2', 140, 130);
+                ctx.fillStyle = '#000'; ctx.fillText('3', 240, 50);
+            }, 100);
+            canvas.ontouchmove = (e) => {
+                let rect = canvas.getBoundingClientRect();
+                let x = e.touches[0].clientX - rect.left, y = e.touches[0].clientY - rect.top;
+                if(Math.abs(x-30)<25 && Math.abs(y-50)<25) c1 = true;
+                if(c1 && Math.abs(x-140)<25 && Math.abs(y-130)<25) c2 = true;
+                if(c2 && Math.abs(x-240)<25 && Math.abs(y-50)<25) { clearInterval(gameInterval); handleChallengeWin(configDatabase[activeTargetIndex]); }
+            };
+        }
+
+        // DAY 24: THREE CUPS SHELL HIDER
+        function pickShellCup(id) {
+            if(id === 1) { handleChallengeWin(configDatabase[activeTargetIndex]); } 
+            else { document.getElementById('modalCard').classList.add('shake'); setTimeout(() => document.getElementById('modalCard').classList.remove('shake'), 400); }
+        }
+
+        // DAY 25: RETRO BRICK CRUSHER
+        function runDay25() {
+            const canvas = document.getElementById('canvas-day25'); const ctx = canvas.getContext('2d');
+            let bx=140, by=100, bdx=3, bdy=-3, px=110, b1=true, b2=true, b3=true;
+            canvas.ontouchmove = (e) => { px = (e.touches[0].clientX - canvas.getBoundingClientRect().left) - 25; };
+            gameInterval = setInterval(() => {
+                bx += bdx; by += bdy;
+                if(bx<0 || bx>270) bdx = -bdx;
+                if(by<0) bdy = -bdy;
+                if(by>165 && bx>px && bx<px+50) bdy = -bdy;
+                if(by>180) { bx=140; by=100; bdy=-3; b1=true; b2=true; b3=true; }
+                
+                // Collision checks
+                if(b1 && by<40 && bx>30 && bx<80) { b1=false; bdy=-bdy; }
+                if(b2 && by<40 && bx>110 && bx<160) { b2=false; bdy=-bdy; }
+                if(b3 && by<40 && bx>190 && bx<240) { b3=false; bdy=-bdy; }
+                
+                if(!b1 && !b2 && !b3) { clearInterval(gameInterval); handleChallengeWin(configDatabase[activeTargetIndex]); }
+                
+                ctx.clearRect(0,0,280,180);
+                ctx.fillStyle = '#ff4d6d'; ctx.beginPath(); ctx.arc(bx, by, 6, 0, Math.PI*2); ctx.fill();
+                ctx.fillStyle = '#000'; ctx.fillRect(px, 170, 50, 8);
+                ctx.fillStyle = '#2a9d8f';
+                if(b1) ctx.fillRect(30, 20, 50, 15); if(b2) ctx.fillRect(110, 20, 50, 15); if(b3) ctx.fillRect(190, 20, 50, 15);
+            }, 30);
+        }
+
+        // DAY 26: CANDLE SWIPER
+        function runDay26() {
+            const canvas = document.getElementById('canvas-day26'); const ctx = canvas.getContext('2d');
+            let c1=true, c2=true, c3=true;
+            function drawCandles() {
+                ctx.clearRect(0,0,280,180);
+                ctx.fillStyle = '#e6ccb2'; ctx.fillRect(50, 80, 15, 60); ctx.fillRect(130, 80, 15, 60); ctx.fillRect(210, 80, 15, 60);
+                ctx.fillStyle = '#ff4d6d';
+                if(c1) ctx.fillRect(53, 55, 9, 20); if(c2) ctx.fillRect(133, 55, 9, 20); if(c3) ctx.fillRect(213, 55, 9, 20);
+            }
+            canvas.ontouchmove = (e) => {
+                let rect = canvas.getBoundingClientRect();
+                let x = e.touches[0].clientX - rect.left, y = e.touches[0].clientY - rect.top;
+                if(x>45 && x<70 && y>50 && y<80) c1 = false;
+                if(x>125 && x<150 && y>50 && y<80) c2 = false;
+                if(x>205 && x<230 && y>50 && y<80) c3 = false;
+                drawCandles();
+                if(!c1 && !c2 && !c3) { canvas.ontouchmove = null; handleChallengeWin(configDatabase[activeTargetIndex]); }
+            };
+            drawCandles();
+        }
+
+        // DAY 27: FINAL VAULT SAFE WORD MATCH
+        function checkVaultDay27() {
+            if(document.getElementById('input-day27').value.trim().toUpperCase() === "HURRAY") {
+                handleChallengeWin(configDatabase[activeTargetIndex]);
+            } else {
+                document.getElementById('modalCard').classList.add('shake');
+                setTimeout(() => document.getElementById('modalCard').classList.remove('shake'), 400);
             }
         }
 
